@@ -1,4 +1,3 @@
-#!/usr/local/bin/python3
 '''
 Define functions to return suggestions for partial search terms, such as one
 would see when typing into a form.
@@ -40,10 +39,14 @@ def init_search_cache(wordlist):
     return search_cache
 
 
-def search(search_cache,search_term):
+def suggest(search_cache,search_term):
     '''
-    Return a list of cached search words for a given (partial) search term.
+    Return a list of cached search words for a given pre-cached set of search
+    terms and a (partial) term to search for.
+
     Return an empty list if there are no results.
+
+    Initialize the search terms passed here using init_search_cache() first.
     '''
     results = []
 
@@ -51,13 +54,4 @@ def search(search_cache,search_term):
         results = search_cache[search_term]
 
     return results
-
-
-def test(search_cache,search_words):
-    '''Wrapper to test search'''
-
-    for word in search_words:
-        results = search(search_cache,word)
-        print(f'{word}: {results}')
-
 

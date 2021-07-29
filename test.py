@@ -1,16 +1,16 @@
-#!/usr/local/bin/python3
+#!/usr/bin/env python3
 '''
 Test the Module
 '''
 
 from search_suggest import init_search_cache
-from search_suggest import search
+from search_suggest import suggest
 
 def test(search_cache,search_words):
     '''Wrapper to test search'''
 
     for word in search_words:
-        results = search(search_cache,word)
+        results = suggest(search_cache,word)
         print(f'{word}: {results}')
 
 
