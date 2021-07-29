@@ -11,19 +11,28 @@ term starting at some other point within the word.
 import pprint
 
 def init_search_cache(wordlist):
-    '''Initialize search cache based on a given wordlist'''
+    '''
+    Initialize search cache based on a given wordlist. Return a dict of
+    the cached search results.
 
+    The values for each search term in the dict should be a list of all words
+    who's beginning matches the search term.
+    '''
     search_cache = {}
 
     # parse each word given
     for word in wordlist:
         substring = ''
         for letter in word:
-            # create new substring adding to previous letters
+            # create subsequent search keys by adding additional letters to
+            # a stack of all previous letters in the word
             substring = f'{substring}{letter}'
+
             if substring not in search_cache.keys():
+                # create a new key if the search term does not exist yet
                 search_cache[substring] = [word]
             else:
+                # otherwise append to the list of existing results
                 search_cache[substring].append(word)
 
     print('Initialized cache:')
@@ -32,15 +41,14 @@ def init_search_cache(wordlist):
 
 
 def search(search_cache,search_term):
-    '''Return cached searches for a given word'''
-
+    '''
+    Return a list of cached search words for a given (partial) search term.
+    Return an empty list if there are no results.
+    '''
     results = []
-    substring = ''
 
     if search_term in search_cache.keys():
-        match = search_cache[search_term]
-        if match not in results:    # avoid duplicates
-            results.append(match)
+        results = search_cache[search_term]
 
     return results
 
@@ -56,12 +64,24 @@ def test(search_cache,search_words):
 if __name__ == "__main__":
     '''Test our module'''
 
-    wordlist = ['apple','anyman','ask','band','bold','bolder','man']
+    wordlist = [
+        'apple',
+        'anyman',
+        'ask',
+        'band',
+        'bold',
+        'bolder',
+        'man',
+    ]
     search_cache = init_search_cache(wordlist)
 
+    print(f"\nUsing Wordlist: {wordlist}")
+
     print("\nExpect to Pass:")
+    print("---------------")
     test(search_cache,['ask','b','band','bo','man'])
 
     print("\nExpect to Fail:")
+    print("---------------")
     test(search_cache,['many','woman','grapple','rapple'])
 
